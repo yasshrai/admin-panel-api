@@ -11,21 +11,21 @@ const studentSchema = new Schema(
     },
     branch: {
       type: String,
-      required: [true, "Branch is required"],
+      required: true,
     },
     department: {
       type: String,
-      required: [true, "Department is required"],
+      required: false,
     },
     rollNumber: {
       type: String,
       unique: true,
-      required: [true, "Roll number is required"],
+      required: false,
     },
     scholarNumber: {
       type: String,
       unique: true,
-      required: [true, "Scholar number is required"],
+      required: false,
     },
     enrollmentNumber: {
       type: String,
@@ -34,7 +34,7 @@ const studentSchema = new Schema(
     },
     admissionYear: {
       type: Number,
-      required: [true, "Admission year is required"],
+      required: false,
     },
     leaveUniversity: {
       type: Boolean,
@@ -43,33 +43,33 @@ const studentSchema = new Schema(
     },
     passOutYear: {
       type: Number,
-      required: [true, "Pass out year is required"],
+      required: false,
     },
     mobileNumber: {
       type: String,
-      required: [true, "Mobile number is required"],
+      required: false,
       match: [/^\d{10}$/, "Mobile number must be 10 digits"],
     },
     emailAddress: {
       type: String,
-      required: [true, "Email address is required"],
+      required: false,
       match: [/\S+@\S+\.\S+/, "Email address is invalid"],
     },
     fatherName: {
       type: String,
-      required: [true, "Father's name is required"],
+      required: false,
     },
     motherName: {
       type: String,
-      required: [true, "Mother's name is required"],
+      required: false,
     },
     residenceAddress: {
       type: String,
-      required: [true, "Residence address is required"],
+      required: false,
     },
     parentContectNumber: {
       type: String,
-      required: true,
+      required: false,
     },
     semester: {
       type: String,
@@ -77,18 +77,23 @@ const studentSchema = new Schema(
     },
     section: {
       type: String,
+      required: false,
     },
     subjectinHighSchool: {
       type: String,
+      required: false,
     },
     regular: {
       type: Boolean,
+      required: false,
     },
     busFacility: {
       type: Boolean,
+      required: false,
     },
     achivements: {
       type: String,
+      required: false,
     },
   },
   {
