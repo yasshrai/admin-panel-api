@@ -5,9 +5,18 @@ const { Schema, model } = mongoose;
 // Create a Schema corresponding to the document interface.
 const studentSchema = new Schema(
   {
-    name: { type: String, required: [true, "Name is required"] },
-    branch: { type: String, required: [true, "Branch is required"] },
-    department: { type: String, required: [true, "Department is required"] },
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
+    branch: {
+      type: String,
+      required: [true, "Branch is required"],
+    },
+    department: {
+      type: String,
+      required: [true, "Department is required"],
+    },
     rollNumber: {
       type: String,
       unique: true,
@@ -46,11 +55,40 @@ const studentSchema = new Schema(
       required: [true, "Email address is required"],
       match: [/\S+@\S+\.\S+/, "Email address is invalid"],
     },
-    fatherName: { type: String, required: [true, "Father's name is required"] },
-    motherName: { type: String, required: [true, "Mother's name is required"] },
+    fatherName: {
+      type: String,
+      required: [true, "Father's name is required"],
+    },
+    motherName: {
+      type: String,
+      required: [true, "Mother's name is required"],
+    },
     residenceAddress: {
       type: String,
       required: [true, "Residence address is required"],
+    },
+    parentContectNumber: {
+      type: String,
+      required: true,
+    },
+    semester: {
+      type: String,
+      required: false,
+    },
+    section: {
+      type: String,
+    },
+    subjectinHighSchool: {
+      type: String,
+    },
+    regular: {
+      type: Boolean,
+    },
+    busFacility: {
+      type: Boolean,
+    },
+    achivements: {
+      type: String,
     },
   },
   {
