@@ -20,7 +20,12 @@ const createAdmin = async (req, res) => {
       email,
     });
     await newAdmin.save();
-    return res.status(201).json(newAdmin);
+    return res.status(201).json({
+      _id: newAdmin._id,
+      name: newAdmin.name,
+      username: newAdmin.username,
+      email: newAdmin.email,
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Unable to create admin" });
@@ -45,7 +50,12 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     generateTokenAndSetCookie(admin._id.toString(), res);
-    return res.status(200).json({ message: "Login successful" });
+    return res.status(200).json({
+      _id: admin._id,
+      name: admin.name,
+      username: admin.username,
+      email: admin.email,
+    });
   } catch (err) {
     return res.status(500).json({ message: "internal server error" });
   }
