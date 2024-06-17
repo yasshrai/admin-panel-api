@@ -37,17 +37,17 @@ const login = async (req, res) => {
 
     const admin = await Admin.findOne({ username });
     if (!admin) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, admin.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
     generateTokenAndSetCookie(admin._id.toString(), res);
     return res.status(200).json({ message: "Login successful" });
   } catch (err) {
-    return res.status(500);
+    return res.status(500).json({ message: "internal server error" });
   }
 };
 
