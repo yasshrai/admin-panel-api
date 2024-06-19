@@ -24,12 +24,12 @@ const createProfessor = async (req, res) => {
       !emailAddress ||
       !residenceAddress
     ) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ error: "All fields are required" });
     }
 
     const professor = await Professor.findOne({ professorId });
     if (professor) {
-      return res.status(400).json({ message: "Professor already exists" });
+      return res.status(400).json({ error: "Professor already exists" });
     }
 
     const newProfessor = new Professor({
@@ -47,7 +47,7 @@ const createProfessor = async (req, res) => {
     return res.status(201).json(newProfessor);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error creating professor", error });
+    return res.status(500).json({ error: "Error creating professor", error });
   }
 };
 
@@ -62,11 +62,11 @@ const updateProfessor = async (req, res) => {
       { new: true }
     );
     if (!updatedProfessor) {
-      return res.status(404).json({ message: "Professor not found" });
+      return res.status(404).json({ error: "Professor not found" });
     }
     return res.status(200).json(updatedProfessor);
   } catch (error) {
-    return res.status(500).json({ message: "Error updating professor", error });
+    return res.status(500).json({ error: "Error updating professor", error });
   }
 };
 
@@ -78,7 +78,7 @@ const readProfessors = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Error fetching professors", error });
+      .json({ error: "Error fetching professors", errorDetails: error });
   }
 };
 
