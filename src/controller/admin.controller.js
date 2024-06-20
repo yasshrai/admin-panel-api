@@ -72,4 +72,29 @@ const logout = (req, res) => {
   }
 };
 
-export { createAdmin, login, logout };
+const changePassword = async (req, res) => {
+  const username = req.params.username;
+  const newPassword = req.body.newPassword;
+  const oldPassword = req.body.oldPassword;
+
+  try {
+    const admin = await Admin.findOne({ username: username });
+    if (!admin) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, admin.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    admin.password = hashedPassword;
+    await admin.save();
+
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+export { createAdmin, login, logout, changePassword };
