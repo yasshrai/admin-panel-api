@@ -1,5 +1,4 @@
 import express from "express";
-import protectRoute from "../middleware/protectRoute.js";
 import {
   createProfessor,
   readProfessors,

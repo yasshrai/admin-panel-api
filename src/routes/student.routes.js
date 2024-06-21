@@ -4,7 +4,6 @@ import {
   updateStudent,
   readStudents,
 } from "../controller/student.controller.js";
-import protectRoute from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
