@@ -9,16 +9,66 @@ const createStudent = async (req, res) => {
       department,
       rollNumber,
       scholarNumber,
+      enrollmentNumber,
       admissionYear,
+      leaveUniversity,
       passOutYear,
       mobileNumber,
       emailAddress,
       fatherName,
       motherName,
       residenceAddress,
+      parentContectNumber,
+      semester,
+      section,
+      subjectinHighSchool,
+      regular,
+      busFacility,
+      achivements,
     } = req.body;
 
-    const student = await Student.findOne({ scholarNumber });
+    // Check if all three fields are empty
+    if (!scholarNumber && !rollNumber && !enrollmentNumber) {
+      // All three fields are empty, create a new student
+      const newStudent = new Student({
+        name,
+        branch,
+        department,
+        rollNumber,
+        scholarNumber,
+        enrollmentNumber,
+        admissionYear,
+        leaveUniversity,
+        passOutYear,
+        mobileNumber,
+        emailAddress,
+        fatherName,
+        motherName,
+        residenceAddress,
+        parentContectNumber,
+        semester,
+        section,
+        subjectinHighSchool,
+        regular,
+        busFacility,
+        achivements,
+      });
+
+      // Saving the new student to the database
+      await newStudent.save();
+
+      // Responding with the newly created student
+      return res.status(201).json(newStudent);
+    }
+
+    // Build query object to find existing student
+    let query = {};
+    if (scholarNumber) query.scholarNumber = scholarNumber;
+    if (rollNumber) query.rollNumber = rollNumber;
+    if (enrollmentNumber) query.enrollmentNumber = enrollmentNumber;
+
+    const student = await Student.findOne(query);
+
     if (student) {
       return res.status(400).json({ error: "Student already exists" });
     }
@@ -30,13 +80,22 @@ const createStudent = async (req, res) => {
       department,
       rollNumber,
       scholarNumber,
+      enrollmentNumber,
       admissionYear,
+      leaveUniversity,
       passOutYear,
       mobileNumber,
       emailAddress,
       fatherName,
       motherName,
       residenceAddress,
+      parentContectNumber,
+      semester,
+      section,
+      subjectinHighSchool,
+      regular,
+      busFacility,
+      achivements,
     });
 
     // Saving the new student to the database

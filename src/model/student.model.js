@@ -19,18 +19,18 @@ const studentSchema = new Schema(
     },
     rollNumber: {
       type: String,
-      unique: true,
       required: false,
+      unique: true,
     },
     scholarNumber: {
       type: String,
-      unique: true,
       required: false,
+      unique: true,
     },
     enrollmentNumber: {
       type: String,
-      unique: true,
       required: false,
+      unique: true,
     },
     admissionYear: {
       type: Number,
