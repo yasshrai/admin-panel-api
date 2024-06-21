@@ -9,7 +9,7 @@ import protectRoute from "../middleware/protectRoute.js";
 const router = express.Router();
 
 router.post("/create", createStudent);
-router.put("/update/:scholarNumber", protectRoute, updateStudent);
-router.get("/getall", protectRoute, readStudents);
+router.put("/update/:scholarNumber", updateStudent);
+router.get("/getall", readStudents);
 
 export default router;

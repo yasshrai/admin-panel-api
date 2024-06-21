@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 router.post("/create", createProfessor);
-router.put("/update/:professorId", protectRoute, updateProfessor);
-router.get("/getall", protectRoute, readProfessors);
+router.put("/update/:professorId", updateProfessor);
+router.get("/getall", readProfessors);
 
 export default router;
