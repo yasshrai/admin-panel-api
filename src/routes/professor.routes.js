@@ -8,7 +8,7 @@ import {
 
 const router = express.Router();
 
-router.post("/create", protectRoute, createProfessor);
+router.post("/create", createProfessor);
 router.put("/update/:professorId", protectRoute, updateProfessor);
 router.get("/getall", protectRoute, readProfessors);
 

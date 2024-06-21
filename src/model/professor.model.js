@@ -7,12 +7,12 @@ const professorSchema = new Schema(
   {
     name: { type: String, required: true },
     age: { type: Number, required: true },
-    department: { type: String, required: true },
-    position: { type: String, required: true },
-    professorId: { type: String, required: true, unique: true },
-    mobileNumber: { type: String, required: true },
-    emailAddress: { type: String, required: true },
-    residenceAddress: { type: String, required: true },
+    department: { type: String },
+    position: { type: String },
+    professorId: { type: String, unique: true },
+    mobileNumber: { type: String },
+    emailAddress: { type: String },
+    residenceAddress: { type: String },
   },
   {
     timestamps: true, // This will add createdAt and updatedAt fields

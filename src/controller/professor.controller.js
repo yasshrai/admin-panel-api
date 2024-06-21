@@ -14,24 +14,35 @@ const createProfessor = async (req, res) => {
       residenceAddress,
     } = req.body;
 
-    if (
-      !name ||
-      !age ||
-      !department ||
-      !position ||
-      !professorId ||
-      !mobileNumber ||
-      !emailAddress ||
-      !residenceAddress
-    ) {
-      return res.status(400).json({ error: "All fields are required" });
+    // Validate required fields
+    if (!name || !age) {
+      return res.status(400).json({ error: "Name and age are required" });
     }
 
-    const professor = await Professor.findOne({ professorId });
-    if (professor) {
+    // Check if professorId is empty
+    if (!professorId) {
+      const newProfessor = new Professor({
+        name,
+        age,
+        department,
+        professorId: "",
+        position,
+        mobileNumber,
+        emailAddress,
+        residenceAddress,
+      });
+
+      await newProfessor.save();
+      return res.status(201).json(newProfessor);
+    }
+
+    // Check if professor already exists with the given professorId
+    const existingProfessor = await Professor.findOne({ professorId });
+    if (existingProfessor) {
       return res.status(400).json({ error: "Professor already exists" });
     }
 
+    // Create new professor
     const newProfessor = new Professor({
       name,
       age,
@@ -47,7 +58,9 @@ const createProfessor = async (req, res) => {
     return res.status(201).json(newProfessor);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Error creating professor", error });
+    return res
+      .status(500)
+      .json({ error: "Error creating professor", details: error.message });
   }
 };
 
