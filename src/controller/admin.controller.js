@@ -73,7 +73,7 @@ const logout = (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  const username = req.params.username;
+  const username = req.body.username;
   const newPassword = req.body.newPassword;
   const oldPassword = req.body.oldPassword;
 
