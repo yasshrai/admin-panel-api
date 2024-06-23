@@ -27,32 +27,39 @@ const createStudent = async (req, res) => {
       achivements,
     } = req.body;
 
+    // Trim whitespace from string fields
+    const trimmedData = {
+      name: name?.trim(),
+      branch: branch?.trim(),
+      department: department?.trim(),
+      rollNumber: rollNumber?.trim(),
+      scholarNumber: scholarNumber?.trim(),
+      enrollmentNumber: enrollmentNumber?.trim(),
+      admissionYear,
+      leaveUniversity,
+      passOutYear,
+      mobileNumber: mobileNumber?.trim(),
+      emailAddress: emailAddress?.trim(),
+      fatherName: fatherName?.trim(),
+      motherName: motherName?.trim(),
+      residenceAddress: residenceAddress?.trim(),
+      parentContectNumber: parentContectNumber?.trim(),
+      semester: semester?.trim(),
+      section: section?.trim(),
+      subjectinHighSchool: subjectinHighSchool?.trim(),
+      regular,
+      busFacility,
+      achivements: achivements?.trim(),
+    };
+
     // Check if all three fields are empty
-    if (!scholarNumber && !rollNumber && !enrollmentNumber) {
+    if (
+      !trimmedData.scholarNumber &&
+      !trimmedData.rollNumber &&
+      !trimmedData.enrollmentNumber
+    ) {
       // All three fields are empty, create a new student
-      const newStudent = new Student({
-        name,
-        branch,
-        department,
-        rollNumber,
-        scholarNumber,
-        enrollmentNumber,
-        admissionYear,
-        leaveUniversity,
-        passOutYear,
-        mobileNumber,
-        emailAddress,
-        fatherName,
-        motherName,
-        residenceAddress,
-        parentContectNumber,
-        semester,
-        section,
-        subjectinHighSchool,
-        regular,
-        busFacility,
-        achivements,
-      });
+      const newStudent = new Student(trimmedData);
 
       // Saving the new student to the database
       await newStudent.save();
@@ -63,9 +70,11 @@ const createStudent = async (req, res) => {
 
     // Build query object to find existing student
     let query = {};
-    if (scholarNumber) query.scholarNumber = scholarNumber;
-    if (rollNumber) query.rollNumber = rollNumber;
-    if (enrollmentNumber) query.enrollmentNumber = enrollmentNumber;
+    if (trimmedData.scholarNumber)
+      query.scholarNumber = trimmedData.scholarNumber;
+    if (trimmedData.rollNumber) query.rollNumber = trimmedData.rollNumber;
+    if (trimmedData.enrollmentNumber)
+      query.enrollmentNumber = trimmedData.enrollmentNumber;
 
     const student = await Student.findOne(query);
 
@@ -74,29 +83,7 @@ const createStudent = async (req, res) => {
     }
 
     // Creating a new student instance
-    const newStudent = new Student({
-      name,
-      branch,
-      department,
-      rollNumber,
-      scholarNumber,
-      enrollmentNumber,
-      admissionYear,
-      leaveUniversity,
-      passOutYear,
-      mobileNumber,
-      emailAddress,
-      fatherName,
-      motherName,
-      residenceAddress,
-      parentContectNumber,
-      semester,
-      section,
-      subjectinHighSchool,
-      regular,
-      busFacility,
-      achivements,
-    });
+    const newStudent = new Student(trimmedData);
 
     // Saving the new student to the database
     await newStudent.save();
@@ -146,4 +133,32 @@ const readStudents = async (req, res) => {
   }
 };
 
-export { createStudent, updateStudent, readStudents };
+const filterStudents = async (req, res) => {
+  try {
+    const filterCriteria = req.body.filters; // Assuming the filter criteria are sent in the request body under "filters"
+
+    // Building the query object
+    let query = {};
+
+    // Loop through the filter criteria and add to the query if they are present
+    for (const key in filterCriteria) {
+      if (
+        filterCriteria.hasOwnProperty(key) &&
+        filterCriteria[key] !== undefined &&
+        filterCriteria[key] !== null
+      ) {
+        query[key] = filterCriteria[key];
+      }
+    }
+
+    // Fetching filtered students from the database
+    const students = await Student.find(query);
+
+    return res.status(200).json(students);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error fetching filtered students" });
+  }
+};
+
+export { createStudent, updateStudent, readStudents, filterStudents };
