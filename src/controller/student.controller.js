@@ -156,7 +156,6 @@ const filterStudents = async (req, res) => {
 
     return res.status(200).json(students);
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: "Error fetching filtered students" });
   }
 };
