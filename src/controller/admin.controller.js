@@ -97,4 +97,14 @@ const changePassword = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-export { createAdmin, login, logout, changePassword };
+
+const getAllAdmin = async (req, res) => {
+  try {
+    // Fetching all students from the database
+    const admins = await Admin.find({}, "-password");
+    return res.status(200).json(admins);
+  } catch (error) {
+    res.status(500).json({ error: "unable to read admin data" });
+  }
+};
+export { createAdmin, login, logout, changePassword, getAllAdmin };
