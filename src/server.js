@@ -13,8 +13,12 @@ const port = process.env.PORT || 4500;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
-
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Your frontend URL
+    credentials: true, // Allow cookies to be sent and received
+  })
+);
 app.use("/api/admin", adminRouter);
 app.use("/api/students", studentRouter);
 app.use("/api/professors", professorRouter);

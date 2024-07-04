@@ -11,7 +11,7 @@ const studentSchema = new Schema(
     },
     branch: {
       type: String,
-      required: true,
+      required: false,
     },
     department: {
       type: String,
@@ -20,17 +20,14 @@ const studentSchema = new Schema(
     rollNumber: {
       type: String,
       required: false,
-      unique: true,
     },
     scholarNumber: {
       type: String,
       required: false,
-      unique: true,
     },
     enrollmentNumber: {
       type: String,
       required: false,
-      unique: true,
     },
     admissionYear: {
       type: Number,

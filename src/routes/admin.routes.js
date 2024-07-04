@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.post("/signup", createAdmin); // Protected route
 router.post("/login", login);
-router.post("/logout", logout); // Protected route
-router.put("/changepassword", changePassword);
-router.get("/getalladmin", getAllAdmin);
+router.post("/logout", protectRoute, logout); // Protected route
+router.put("/changepassword", protectRoute, changePassword);
+router.get("/getalladmin", protectRoute, getAllAdmin);
 
 export default router;

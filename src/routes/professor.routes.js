@@ -4,11 +4,12 @@ import {
   readProfessors,
   updateProfessor,
 } from "../controller/professor.controller.js";
+import protectRoute from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
-router.post("/create", createProfessor);
-router.put("/update/:professorId", updateProfessor);
-router.get("/getall", readProfessors);
+router.post("/create", protectRoute, createProfessor);
+router.put("/update/:professorId", protectRoute, updateProfessor);
+router.get("/getall", protectRoute, readProfessors);
 
 export default router;

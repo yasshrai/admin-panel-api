@@ -70,16 +70,29 @@ const createStudent = async (req, res) => {
 
     // Build query object to find existing student
     let query = {};
-    if (trimmedData.scholarNumber)
+    if (trimmedData.scholarNumber) {
       query.scholarNumber = trimmedData.scholarNumber;
-    if (trimmedData.rollNumber) query.rollNumber = trimmedData.rollNumber;
-    if (trimmedData.enrollmentNumber)
+      const student = await Student.findOne(query);
+      if (student) {
+        return res.status(400).json({ error: "Student already exists" });
+      }
+      query = {};
+    }
+    if (trimmedData.rollNumber) {
+      query.rollNumber = trimmedData.rollNumber;
+      const student = await Student.findOne(query);
+      if (student) {
+        return res.status(400).json({ error: "Student already exists" });
+      }
+      query = {};
+    }
+    if (trimmedData.enrollmentNumber) {
       query.enrollmentNumber = trimmedData.enrollmentNumber;
-
-    const student = await Student.findOne(query);
-
-    if (student) {
-      return res.status(400).json({ error: "Student already exists" });
+      const student = await Student.findOne(query);
+      if (student) {
+        return res.status(400).json({ error: "Student already exists" });
+      }
+      query = {};
     }
 
     // Creating a new student instance

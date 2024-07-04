@@ -3,7 +3,7 @@ import Admin from "../model/admin.model.js";
 
 const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    const token = req.cookies.jwtkey;
 
     if (!token) {
       return res
@@ -11,10 +11,15 @@ const protectRoute = async (req, res, next) => {
         .json({ error: "Unauthorized - No Token Provided" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (!decoded) {
-      return res.status(401).json({ error: "Unauthorized - Invalid Token" });
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      if (err.name === "TokenExpiredError") {
+        return res.status(401).json({ error: "Unauthorized - Token Expired" });
+      } else {
+        return res.status(401).json({ error: "Unauthorized - Invalid Token" });
+      }
     }
 
     const admin = await Admin.findById(decoded.userId).select("-password");
@@ -26,7 +31,7 @@ const protectRoute = async (req, res, next) => {
     req.user = admin;
     next();
   } catch (error) {
-    console.log("Error in protectRoute middleware: ", error);
+    console.error("Error in protectRoute middleware: ", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

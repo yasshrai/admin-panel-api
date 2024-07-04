@@ -6,7 +6,7 @@ const { Schema, model } = mongoose;
 const professorSchema = new Schema(
   {
     name: { type: String, required: true },
-    age: { type: Number, required: true },
+    age: { type: Number },
     department: { type: String },
     position: { type: String },
     professorId: { type: String, unique: true },
