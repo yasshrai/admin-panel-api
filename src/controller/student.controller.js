@@ -74,7 +74,7 @@ const createStudent = async (req, res) => {
       query.scholarNumber = trimmedData.scholarNumber;
       const student = await Student.findOne(query);
       if (student) {
-        return res.status(400).json({ error: "Student already exists" });
+        return res.status(400).json({ error: "scholar number already in use" });
       }
       query = {};
     }
@@ -82,7 +82,7 @@ const createStudent = async (req, res) => {
       query.rollNumber = trimmedData.rollNumber;
       const student = await Student.findOne(query);
       if (student) {
-        return res.status(400).json({ error: "Student already exists" });
+        return res.status(400).json({ error: "roll number already in use" });
       }
       query = {};
     }
@@ -90,7 +90,9 @@ const createStudent = async (req, res) => {
       query.enrollmentNumber = trimmedData.enrollmentNumber;
       const student = await Student.findOne(query);
       if (student) {
-        return res.status(400).json({ error: "Student already exists" });
+        return res
+          .status(400)
+          .json({ error: "enrollment number already in use" });
       }
       query = {};
     }

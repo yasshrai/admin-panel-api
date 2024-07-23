@@ -10,7 +10,7 @@ import protectRoute from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
-router.post("/signup", createAdmin); // Protected route
+router.post("/signup", createAdmin);
 router.post("/login", login);
 router.post("/logout", protectRoute, logout); // Protected route
 router.put("/changepassword", protectRoute, changePassword);

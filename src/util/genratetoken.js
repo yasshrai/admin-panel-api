@@ -20,7 +20,7 @@ const generateTokenAndSetCookie = (userId, res) => {
       secure: isProduction, // Use secure cookies in production
     });
 
-    console.log("Token generated and set as cookie:", token);
+    // console.log("Token generated and set as cookie:", token);
   } catch (error) {
     console.error("Error generating token and setting cookie:", error);
     res.status(500).json({ message: "Internal server error" });
