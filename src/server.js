@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://college-admin-panel.vercel.app", // Your frontend URL
+    origin: process.env.ORIGIN, // Your frontend URL
     credentials: true, // Allow cookies to be sent and received
   })
 );

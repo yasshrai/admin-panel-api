@@ -107,4 +107,5 @@ const getAllAdmin = async (req, res) => {
     res.status(500).json({ error: "unable to read admin data" });
   }
 };
+
 export { createAdmin, login, logout, changePassword, getAllAdmin };

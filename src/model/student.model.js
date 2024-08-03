@@ -23,7 +23,7 @@ const studentSchema = new Schema(
     },
     scholarNumber: {
       type: String,
-      required: false,
+      required: [true, "scholarNumber is required"],
     },
     enrollmentNumber: {
       type: String,

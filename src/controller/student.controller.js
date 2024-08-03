@@ -175,4 +175,47 @@ const filterStudents = async (req, res) => {
   }
 };
 
-export { createStudent, updateStudent, readStudents, filterStudents };
+const uniqueScholarNumber = async (req, res) => {
+  try {
+    let randomnum;
+    let attempts = 0;
+    const maxAttempts = 1000; // Prevent infinite loop
+
+    do {
+      // Generate a random integer
+      randomnum = Math.floor(Math.random() * 100000000);
+
+      // Check if the scholar number already exists
+      const student = await Student.findOne({ scholarNumber: randomnum });
+
+      attempts++;
+      if (student) {
+        // If student exists, try a new number
+        continue;
+      } else {
+        // If student does not exist, exit loop
+        break;
+      }
+    } while (attempts < maxAttempts);
+
+    if (attempts >= maxAttempts) {
+      return res
+        .status(500)
+        .json({ error: "Unable to generate a unique scholar number" });
+    }
+
+    return res.status(200).json({ scholarNumber: randomnum });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Cannot create unique scholar number" });
+  }
+};
+
+export {
+  createStudent,
+  updateStudent,
+  readStudents,
+  filterStudents,
+  uniqueScholarNumber,
+};
