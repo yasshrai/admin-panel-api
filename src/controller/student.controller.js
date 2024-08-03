@@ -33,7 +33,7 @@ const createStudent = async (req, res) => {
       branch: branch?.trim(),
       department: department?.trim(),
       rollNumber: rollNumber?.trim(),
-      scholarNumber: scholarNumber?.trim(),
+      scholarNumber,
       enrollmentNumber: enrollmentNumber?.trim(),
       admissionYear,
       leaveUniversity,
