@@ -95,4 +95,33 @@ const readProfessors = async (req, res) => {
   }
 };
 
-export { createProfessor, updateProfessor, readProfessors };
+const uniqueProfessorId = async (req, res) => {
+  try {
+    let randomnum;
+    let attempts = 0;
+    const maxAttempts = 1000;
+    do {
+      // Generate a random integer
+      randomnum = Math.floor(Math.random() * 100000000);
+      const professor = await Professor.findOne({ professorId: randomnum });
+
+      attempts++;
+      if (professor) {
+        continue;
+      } else {
+        break;
+      }
+    } while (attempts < maxAttempts);
+
+    if (attempts >= maxAttempts) {
+      return res
+        .status(500)
+        .json({ error: "Unable to generate a professorId" });
+    }
+    return res.status(200).json({ professorId: randomnum });
+  } catch (error) {
+    return res.status(500).json({ error: "Cannot create unique professorId" });
+  }
+};
+
+export { createProfessor, updateProfessor, readProfessors, uniqueProfessorId };
