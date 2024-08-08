@@ -4,8 +4,8 @@ import generateTokenAndSetCookie from "../util/genratetoken.js";
 // Create a new admin
 const createAdmin = async (req, res) => {
   try {
-    const { name, username, password, email } = req.body;
-    if (!name || !username || !password || !email) {
+    const { name, username, password, email, followUp } = req.body;
+    if (!name || !username || !password || !email || !followUp) {
       return res.status(400).json({ error: "All fields are required" });
     }
     const existingAdmin = await Admin.findOne({ username });
@@ -13,11 +13,14 @@ const createAdmin = async (req, res) => {
       return res.status(400).json({ error: "Admin already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const hashedFollowUp = await bcrypt.hash(followUp, 10);
     const newAdmin = new Admin({
       name,
       username,
       password: hashedPassword,
       email,
+      followUp: hashedFollowUp,
     });
     await newAdmin.save();
     return res.status(201).json({
@@ -76,6 +79,7 @@ const changePassword = async (req, res) => {
   const username = req.body.username;
   const newPassword = req.body.newPassword;
   const oldPassword = req.body.oldPassword;
+  const followUp = req.body.followUp;
 
   try {
     const admin = await Admin.findOne({ username: username });
@@ -90,6 +94,10 @@ const changePassword = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     admin.password = hashedPassword;
+    if (followUp) {
+      const hashedFollowUp = await bcrypt.hash(followUp, 10);
+      admin.followUp = hashedFollowUp;
+    }
     await admin.save();
 
     res.status(200).json({ message: "Password changed successfully" });
