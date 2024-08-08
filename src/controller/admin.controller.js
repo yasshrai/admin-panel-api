@@ -122,6 +122,10 @@ const forgetPassword = async (req, res) => {
     const newPassword = req.body.newPassword;
     const followUp = req.body.followUp;
 
+    if (newPassword < 8) {
+      throw new Error("Password must be at least 8 characters long");
+    }
+
     const admin = await Admin.findOne({ username: username });
     if (!admin) {
       return res.status(400).json({ error: "Invalid credentials" });
