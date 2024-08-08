@@ -140,7 +140,7 @@ const updateStudent = async (req, res) => {
 const readStudents = async (req, res) => {
   try {
     // Fetching all students from the database
-    const students = await Student.find();
+    const students = await Student.find().sort({ name: 1 });
     return res.status(200).json(students);
   } catch (error) {
     console.error(error);
@@ -167,7 +167,7 @@ const filterStudents = async (req, res) => {
     }
 
     // Fetching filtered students from the database
-    const students = await Student.find(query);
+    const students = await Student.find(query).sort({ name: 1 });
 
     return res.status(200).json(students);
   } catch (error) {

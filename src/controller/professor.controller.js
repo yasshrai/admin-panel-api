@@ -86,7 +86,7 @@ const updateProfessor = async (req, res) => {
 // Read all professors
 const readProfessors = async (req, res) => {
   try {
-    const professors = await Professor.find();
+    const professors = await Professor.find().sort({ name: 1 });
     return res.status(200).json(professors);
   } catch (error) {
     return res

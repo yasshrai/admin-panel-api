@@ -109,7 +109,7 @@ const changePassword = async (req, res) => {
 const getAllAdmin = async (req, res) => {
   try {
     // Fetching all students from the database
-    const admins = await Admin.find({}, "-password");
+    const admins = await Admin.find({}, "-password").sort({ name: 1 });
     return res.status(200).json(admins);
   } catch (error) {
     res.status(500).json({ error: "unable to read admin data" });
