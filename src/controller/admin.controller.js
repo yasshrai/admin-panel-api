@@ -116,4 +116,34 @@ const getAllAdmin = async (req, res) => {
   }
 };
 
-export { createAdmin, login, logout, changePassword, getAllAdmin };
+const forgetPassword = async (req, res) => {
+  try {
+    const username = req.body.username;
+    const newPassword = req.body.newPassword;
+    const followUp = req.body.followUp;
+
+    const admin = await Admin.findOne({ username: username });
+    if (!admin) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+    const isValidFollowUp = await bcrypt.compare(followUp, admin.followUp);
+    if (!isValidFollowUp) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    admin.password = hashedPassword;
+    await admin.save();
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export {
+  createAdmin,
+  login,
+  logout,
+  changePassword,
+  getAllAdmin,
+  forgetPassword,
+};
