@@ -15,6 +15,10 @@ const createProfessor = async (req, res) => {
     } = req.body;
 
     // Validate required fields
+    if (!professorId) {
+      return res.status(400).json({ error: "professorId is required" });
+    }
+
     if (!name || !age) {
       return res.status(400).json({ error: "Name and age are required" });
     }
@@ -58,9 +62,7 @@ const createProfessor = async (req, res) => {
     return res.status(201).json(newProfessor);
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({ error: "Error creating professor", details: error.message });
+    return res.status(500).json({ error: error, details: error.message });
   }
 };
 
